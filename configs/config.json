@@ -1,0 +1,20 @@
+{
+  "dataset": {
+    "name": "UCI Statlog (German Credit Data)",
+    "url": "https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data",
+    "local_path": "data/german.data",
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "training": {
+    "cv_folds": 5,
+    "random_state": 42,
+    "selection_metric": "roc_auc",
+    "model_output_path": "models/credit_scoring_bundle.joblib"
+  },
+  "evaluation": {
+    "report_path": "reports/model_evaluation.md",
+    "metrics_json_path": "reports/metrics.json",
+    "figures_dir": "reports/figures"
+  }
+}
