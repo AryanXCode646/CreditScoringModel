@@ -1,6 +1,8 @@
-# Credit Scoring Model — CodeAlpha ML Internship (Task 1)
+# Credit Scoring Model
 
-> **Educational Disclaimer**: This project is an educational machine learning benchmark trained on the 1994 UCI Statlog German Credit dataset. It is **not** a validated financial underwriting system and must **not** be used for real-world lending decisions.
+An educational machine learning project that predicts credit risk (Good Credit vs. Bad Credit) using structured financial and demographic data. It features leakage-safe preprocessing, feature engineering, stratified cross-validation, and multi-model evaluation.
+
+> **Educational Disclaimer:** This project is an educational machine learning benchmark trained on the 1994 UCI Statlog German Credit dataset. It is **not** a validated financial underwriting system and must **not** be used for real-world lending decisions.
 
 ## Problem Statement & Objectives
 
@@ -8,11 +10,11 @@ Predict an individual's credit risk (`Good Credit (0)` vs. `Bad Credit / High Ri
 
 ## Dataset
 
-- **Name**: Statlog (German Credit Data)
-- **Source**: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
-- **License**: CC BY 4.0
-- **Size**: 1,000 instances, 20 raw attributes (7 numeric, 13 categorical), 0 missing values
-- **Target**: `credit_risk` (`0` = Good Credit / 700 rows, `1` = Bad Credit / 300 rows)
+- **Name:** Statlog (German Credit Data)
+- **Source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
+- **License:** CC BY 4.0
+- **Size:** 1,000 instances, 20 raw attributes (7 numeric, 13 categorical), 0 missing values
+- **Target:** `credit_risk` (`0` = Good Credit / 700 rows, `1` = Bad Credit / 300 rows)
 
 ## Technology Stack
 
@@ -25,9 +27,10 @@ Predict an individual's credit risk (`Good Credit (0)` vs. `Bad Credit / High Ri
 ## Repository Structure
 
 ```text
-CodeAlpha_CreditScoringModel/
+CreditScoringModel/
 ├── app.py                     # Optional Streamlit prediction interface
-├── configs/config.json        # Dataset, training, and evaluation configuration
+├── configs/
+│   └── config.json            # Dataset, training, and evaluation configuration
 ├── data/                      # Dataset directory (gitignored raw files)
 ├── models/                    # Saved model bundle (gitignored)
 ├── reports/
@@ -81,26 +84,32 @@ streamlit run app.py
 
 ## Actual Evaluation Results
 
-Models compared on 5-fold Stratified CV (`random_state=42`) and evaluated on the isolated 20% test set (`n=200`):
+Models were compared using 5-fold Stratified Cross-Validation (`random_state=42`) and evaluated on an isolated 20% test set (`n=200`).
 
-### 5-Fold Cross-Validation (Training Split, `n=800`)
+### 5-Fold Cross-Validation
+
+**Training Split:** `n=800`
 
 | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Brier Score |
-|---|---|---|---|---|---|---|
+|---|---:|---:|---:|---:|---:|---:|
 | Logistic Regression | 0.6963 | 0.4953 | 0.6542 | 0.5637 | 0.7632 | 0.1984 |
 | Decision Tree | 0.6512 | 0.4463 | 0.6750 | 0.5373 | 0.6991 | 0.2342 |
 | **Random Forest (Selected)** | **0.7325** | **0.5436** | **0.6750** | **0.6022** | **0.7901** | **0.1804** |
 
-### Held-Out Test Set (`n=200`, `random_forest` at CV-tuned threshold `0.46`)
+### Held-Out Test Set
 
-- **Accuracy**: `0.6900`
-- **Precision (High Risk)**: `0.4894`
-- **Recall (High Risk)**: `0.7667`
-- **F1-Score (High Risk)**: `0.5974`
-- **ROC-AUC**: `0.7910`
-- **Brier Score**: `0.1829`
+**Test Set:** `n=200`, model: `random_forest`, CV-tuned threshold: `0.46`
 
-See [reports/model_evaluation.md](reports/model_evaluation.md) and `reports/figures/` for confusion matrix, ROC curves, calibration curve, and top feature importances.
+| Metric | Result |
+|---|---:|
+| Accuracy | 0.6900 |
+| Precision (High Risk) | 0.4894 |
+| Recall (High Risk) | 0.7667 |
+| F1-Score (High Risk) | 0.5974 |
+| ROC-AUC | 0.7910 |
+| Brier Score | 0.1829 |
+
+See [reports/model_evaluation.md](reports/model_evaluation.md) and `reports/figures/` for the confusion matrix, ROC curves, calibration curve, and top feature importances.
 
 ## Testing & Code Quality
 
@@ -112,10 +121,10 @@ ruff format --check .
 
 ## Limitations & Future Improvements
 
-- **Historical Context**: Data was collected in 1994 in Germany (Deutsche Mark amounts).
-- **Fairness**: Raw features include `age`, `personal_status_sex`, and `foreign_worker`; real-world credit models require fairness auditing and exclusion of protected attributes.
-- **Future Work**: Cost-sensitive optimization aligned with the UCI 5:1 false-negative/false-positive cost matrix and isotonic/Platt probability calibration.
+- **Historical Context:** Data was collected in 1994 in Germany, with monetary amounts denominated in Deutsche Mark.
+- **Fairness:** Raw features include `age`, `personal_status_sex`, and `foreign_worker`. Real-world credit models require fairness auditing and careful assessment of protected attributes.
+- **Future Work:** Cost-sensitive optimization aligned with the UCI 5:1 false-negative/false-positive cost matrix and isotonic/Platt probability calibration.
 
 ## Author
 
-**Aryan Saxena** — CodeAlpha Machine Learning Internship
+**Aryan Saxena**
